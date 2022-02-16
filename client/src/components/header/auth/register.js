@@ -4,8 +4,10 @@ import * as React from 'react';
 import { useForm } from "react-hook-form";
 import authApi from '../../../apis/api/authApi';
 import './style.scss';
-
+import { useSnackbar } from "notistack";
+import { Link } from "react-router-dom";
 export const RegisterForm = () => {
+    const { enqueueSnackbar } = useSnackbar();
     const {
         register,
         handleSubmit,
@@ -13,12 +15,23 @@ export const RegisterForm = () => {
         reset,
     } = useForm();
     const onSubmit = async (data) => {
-        await authApi.registerApi(data);
+        await authApi.registerApi(data)
+        .then((res)=>{
+            enqueueSnackbar("Đăng ký tài khoản thành công! ", {
+                variant: "success",
+              });
+        })
+        .catch((error)=>{
+            enqueueSnackbar(error.response.data.message, {
+                variant: "error",
+              });
+              return;
+        })
 
     }
     return (
         <div className="register-page">
-            <Container maxWidth="md">
+            <Container maxWidth="sm">
                 <Box
                     sx={{
                         width: 300,
@@ -35,66 +48,58 @@ export const RegisterForm = () => {
                                 variant="outlined"
                                 multiline
                                 placeholder="Username"
-                            >
-                            </TextField>
+                           />
                             <TextField
                                 fullWidth
                                 inputProps={{ ...register("fullname", { required: true }) }}
                                 variant="outlined"
                                 multiline
                                 placeholder="Fullname"
-                            >
-                            </TextField>
+                            />
                             <TextField
                                 fullWidth
                                 inputProps={{ ...register("password", { required: true }) }}
                                 variant="outlined"
                                 type="password"
-                                multiline
                                 placeholder="Password"
                                
-                            >
-                            </TextField>
+                            />
                             <TextField
                                 fullWidth
                                 inputProps={{ ...register("password2", { required: true }) }}
                                 variant="outlined"
-                                multiline
                                 placeholder="Enter the password"
                                 type="password"
-                            >
+                            />
 
-                            </TextField>
                             <TextField
                                 fullWidth
                                 inputProps={{ ...register("phone", { required: true }) }}
                                 variant="outlined"
                                 multiline
                                 placeholder="Phone"
-                            >
+                            />
 
-                            </TextField>
                             <TextField
                                 fullWidth
                                 inputProps={{ ...register("email", { required: true }) }}
                                 variant="outlined"
                                 multiline
                                 placeholder="Email"
-                            >
+                            />
 
-                            </TextField>
                             <TextField
                                 fullWidth
                                 inputProps={{ ...register("address", { required: true }) }}
                                 variant="outlined"
                                 multiline
                                 placeholder="Address"
-                            >
-                            </TextField>
-                            <Button type="submit" color="primary">
+                            />
+                            <Button type="submit" color="primary" variant="contained" style={{marginBottom:'20px'}}>
                                 Đăng kí
                             </Button>
                         </Grid>
+                        <div style={{textAlign:'center'}}> Bạn đã có tài khoản ? &nbsp;	&nbsp;	<Link style={{textDecoration:'unset'}} to="/login"><Button variant="contained" color="secondary">Đăng nhập ngay</Button></Link></div>
 
                     </form>
                 </Box>

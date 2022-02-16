@@ -5,6 +5,8 @@ import {
     Switch
 } from "react-router-dom";
 import Layout from "../components/layout/layout";
+import { RegisterForm } from '../components/header/auth/register'
+import { LoginForm } from '../components/header/auth/login'
 
 export const AppNavigator = () => {
   return (
@@ -12,6 +14,8 @@ export const AppNavigator = () => {
         <Router>
           <Switch>
             <Route path="/" exact component={Layout} />
+            <Route path="/register" exact component={RegisterForm} />
+            <Route path="/login" exact component={LoginForm} />
           </Switch>
         </Router>
     </>
