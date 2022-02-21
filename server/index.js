@@ -6,6 +6,7 @@ const argon2 = require('argon2')
 const bodyParser = require('body-parser')
 
 const authRouter = require('./routers/auth.js');
+const productRouter = require('./routers/product');
 const app = express();
 const PORT = process.env.port || 5000;
 dotenv.config()
@@ -33,5 +34,6 @@ app.listen(PORT,()=>{
     console.log(`server is running port  ${PORT}`);
 })
 app.use('/auth' ,authRouter)
+app.use('/product' ,productRouter)
 app.use(express.json())
 

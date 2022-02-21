@@ -1,3 +1,4 @@
+import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import {
   AppBar,
   Button,
@@ -7,16 +8,15 @@ import {
   MenuItem,
   Toolbar,
   Tooltip,
-  Typography,
+  Typography
 } from "@mui/material";
+import { Box } from "@mui/system";
 import Cookies from "js-cookie";
 import React, { useCallback, useEffect, useState } from "react";
-import { useHistory } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import Logo from '../../assets/image/logo.png';
 import { loginUser } from "./auth/authSlice";
-import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
-import Logo from '../../assets/image/logo.png'
-import { Box, margin } from "@mui/system";
 const Header = () => {
   const user_ = useSelector((state) => state.user);
   useEffect(() => {
@@ -30,7 +30,6 @@ const Header = () => {
   const history = useHistory();
   console.log("user", user_.user);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [anchorElNav, setAnchorElNav] = useState(null);
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -42,13 +41,6 @@ const Header = () => {
     window.location.href = "/";
   }, []);
   
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-};
-const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-};
-
   const pages = [
       {
           title:"Trang chủ",
@@ -98,7 +90,7 @@ const handleCloseNavMenu = () => {
                     <div>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 ,fontSize:'15px'}}>
-                                Xin chào <span style={{fontSize:'18px' , fontWeight:500}}> &nbsp; &nbsp;{user_.user.fullname}</span>
+                                Xin chào <span style={{fontSize:'18px' , fontWeight:500}}> &nbsp; &nbsp;{user_.user.fullname}</span>&nbsp;
                             </IconButton>
                         </Tooltip>
                         <Menu

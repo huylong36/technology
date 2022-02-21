@@ -18,7 +18,7 @@ const register = async (req,res) => {
             return res.status(400).json({ success: false, message: 'Tài khoản đã tồn tại' });
         }
         if(checkEmail){
-            return res.status(400).json({ success: false, message: 'Email' });
+            return res.status(400).json({ success: false, message: 'Email đã được sử dụng' });
         }
         const hashPassword = await argon2.hash(password)
         const newUser = new User({ username,fullname, password: hashPassword,phone,email,address})
