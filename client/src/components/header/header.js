@@ -16,6 +16,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import Logo from '../../assets/image/logo.png';
+import LayoutAdmin from "../layout/admin";
 import { loginUser } from "./auth/authSlice";
 const Header = () => {
   const user_ = useSelector((state) => state.user);
@@ -28,7 +29,6 @@ const Header = () => {
 
   const dispatch = useDispatch();
   const history = useHistory();
-  console.log("user", user_.user);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -43,26 +43,26 @@ const Header = () => {
   
   const pages = [
       {
-          title:"Trang chủ",
+          title:"Home",
           router:"/"
       },
       {
-          title:"Mới nhất",
+          title:"Blog",
           router:"/new-product"
       },
       {
-          title:"Khuyến mãi",
+          title:"Radio",
           router:"/discount"
       },
       {
-          title:"Liên hệ",
+          title:"Video",
           router:"/contact"
       },
   ]
   return (
     <div>
       <div>
-        <AppBar position="static" color="transparent">
+        <AppBar position="static" color="transparent" style={{boxShadow:'none'}}>
             <Container maxWidth="xl">
           <Toolbar disableGutters>
           <Typography
@@ -74,8 +74,9 @@ const Header = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center', alignItems: "center" }}>
                 {pages.map((page, key) => (
-                    <Button color="warning" style={{margin:'20px'}} onClick={() => history.push(page.router)}>{page.title}</Button>
+                    <Button key={key} color="warning" style={{margin:'20px' , color:"#1c1c1c" , fontWeight:700 , textTransform:'capitalize' , fontSize:'16px' }} onClick={() => history.push(page.router)}>{page.title}</Button>
                 ))}
+                {user_.user?.userRole === 1 ? <LayoutAdmin/> : ''}
           </Box>
           {
                 !user_.user ?
@@ -90,7 +91,7 @@ const Header = () => {
                     <div>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 ,fontSize:'15px'}}>
-                                Xin chào <span style={{fontSize:'18px' , fontWeight:500}}> &nbsp; &nbsp;{user_.user.fullname}</span>&nbsp;
+                               Welcome <span style={{fontSize:'18px' , fontWeight:500 , color:'#1c1c1c'}}> &nbsp; &nbsp;{user_.user.fullname}</span>&nbsp;
                             </IconButton>
                         </Tooltip>
                         <Menu

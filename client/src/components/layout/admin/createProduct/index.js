@@ -4,7 +4,7 @@ import { useSnackbar } from "notistack";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import productApi from "../../../../apis/api/productApi";
-
+import './style.scss'
 const CreateProduct = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { register, handleSubmit, setValue, reset } = useForm();
@@ -13,10 +13,20 @@ const CreateProduct = () => {
   const onSubmitCreate = async (data) => {
    await productApi.createProductApi({...data , image:imageSelected })
    .then((res) =>{
-    enqueueSnackbar("Tạo sản phẩm thành công! ", {
-      variant: "success",
-    });
+     if(res.data.newProduct.title === '' && res.data.newProduct.color === '' && res.data.newProduct.description === '' && res.data.newProduct.size === '' ){
+      enqueueSnackbar("Vui lòng nhập đầy đủ thông tin ", {
+        variant: "warning",
+      });
+      return;
+     }else{
+       enqueueSnackbar("Tạo sản phẩm thành công! ", {
+         variant: "success",
+       });
+     }
    })
+
+
+   console.log('data' ,data);
   };
   const onChangeImage = (files) => {
     console.log('files' , files);
@@ -36,14 +46,15 @@ const CreateProduct = () => {
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmitCreate)}>
-        <Grid container>
-          <Grid md={6} p={1}>
+        <Grid container item>
+          <Grid md={6}  p={1}>
             <TextField
               fullWidth
               inputProps={{ ...register("title", { required: true }) }}
               variant="outlined"
               multiline
               placeholder="Tên sản phẩm"
+              className="input-create-product"
             />
             <TextField
               fullWidth
@@ -51,13 +62,15 @@ const CreateProduct = () => {
               variant="outlined"
               multiline
               placeholder="Mô tả sản phẩm"
+              className="input-create-product"
             />
             <TextField
-              fullWidth
+              fullWidths
               inputProps={{ ...register("color", { required: true }) }}
               variant="outlined"
               multiline
               placeholder="Màu"
+              className="input-create-product"
             />
             
           </Grid>
@@ -66,12 +79,14 @@ const CreateProduct = () => {
             onChange={(event) => {
               onChangeImage(event.target.files);
             }}
-            className="item-input"
+            className="item-input input-create-product"
             name=""
             type="file"
             variant="outlined"
-
+            id="input"
         />
+             <label htmlFor="input">Choose Image</label>
+             
              <TextField
               fullWidth
               inputProps={{ ...register("size", { required: true }) }}
@@ -79,6 +94,7 @@ const CreateProduct = () => {
               multiline
               placeholder="Size"
               label="Size"
+              className="input-create-product"
             />
           </Grid>
         </Grid>

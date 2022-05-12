@@ -7,6 +7,8 @@ const bodyParser = require('body-parser')
 
 const authRouter = require('./routers/auth.js');
 const productRouter = require('./routers/product');
+const categoryRouter = require('./routers/category');
+const blogRouter = require('./routers/blog');
 const app = express();
 const PORT = process.env.port || 5000;
 dotenv.config()
@@ -35,5 +37,8 @@ app.listen(PORT,()=>{
 })
 app.use('/auth' ,authRouter)
 app.use('/product' ,productRouter)
+app.use('/' ,categoryRouter)
+app.use('/blog' ,blogRouter)
+
 app.use(express.json())
 

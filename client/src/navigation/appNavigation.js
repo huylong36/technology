@@ -13,9 +13,9 @@ export const AppNavigator = () => {
     <>
         <Router>
           <Switch>
-            <Route path="/" exact component={Layout} />
-            <Route path="/register" exact component={RegisterForm} />
-            <Route path="/login" exact component={LoginForm} />
+            <Route path="/register"  component={RegisterForm} />
+            <Route path="/login"  component={LoginForm} />
+            <Layout/>
           </Switch>
         </Router>
     </>
