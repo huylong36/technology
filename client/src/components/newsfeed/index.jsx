@@ -2,14 +2,15 @@ import { Button, Container, Grid, MenuItem, Select } from "@mui/material";
 import { Form, Input, notification } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import blogAPI from "../../apis/api/blog";
 import categoryAPI from "../../apis/api/category";
 import UploadImage from "../../assets/image/upload-img.png";
 import BlogItem from "../blogItem";
+import CategoryBlog from "../category/index";
 import { FCEditor } from "../CkEditor";
 import { FCDialog } from "../Dialog/DialogComponent";
-import { createBlog, fetchBlog } from "./blogSlice";
+import { fetchBlog } from "./blogSlice";
 import "./style.scss";
 const Newsfeed = () => {
   useEffect(() => {
@@ -18,9 +19,10 @@ const Newsfeed = () => {
       .then((res) => {
         setcategories(res.data.category);
       })
-      .catch((error) => {});
-      dispatch(fetchBlog())
+      .catch((error) => { });
+    dispatch(fetchBlog())
   }, []);
+  const _user = useSelector(state => state.user)
   const [selectCategory, setSelectCategory] = useState();
   const [categories, setcategories] = useState();
   const [open, setOpen] = useState(false);
@@ -33,7 +35,7 @@ const Newsfeed = () => {
   const handleClose = () => {
     setOpen(false);
   };
-   const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const renderCreateBlog = () => {
     const onFinish = (values) => {
       const data = {
@@ -43,11 +45,11 @@ const Newsfeed = () => {
         categoryId: selectCategory,
       };
       blogAPI.createBlog(data);
-      if(data){
-        notification.success({message:'Tạo blog thành công !'})
+      if (data) {
+        notification.success({ message: 'Tạo blog thành công !' })
         setOpen(false);
-      }else{
-        notification.error({message:'Tạo blog thất bại !'})
+      } else {
+        notification.error({ message: 'Tạo blog thất bại !' })
       }
       form.resetFields()
     };
@@ -67,9 +69,9 @@ const Newsfeed = () => {
         .then((res) => {
           setImageSelected(res.data.url);
         })
-        .catch((error) => {});
+        .catch((error) => { });
     };
-
+    console.log('_user', _user)
     return (
       <>
         <Form
@@ -166,6 +168,8 @@ const Newsfeed = () => {
           </Form.Item>
 
           <Button variant="contained" type="submit">Tạo</Button>
+          <Button variant="contained" color="secondary" style={{marginLeft:'20px'}} onClick={() =>setOpen(false)}>Hủy</Button>
+          
         </Form>
       </>
     );
@@ -175,15 +179,17 @@ const Newsfeed = () => {
       <Container>
         <Grid container>
           <Grid item xs={8}>
-            <Button variant="contained" color="primary" onClick={handleCreate}>
-              Tạo blog
-            </Button>
-            <Grid container>
-                <BlogItem/>
+            <div style={{marginLeft:'10px' , marginRight:'10px'}}>
+              <Button variant="contained" color="inherit" onClick={handleCreate} style={{width:'100%'}}>
+                {_user ? `Chào ${_user.user.fullname} , cảm xúc của bạn là gì vậy ?` : 'Hãy viết lên cảm xúc của mình  nhé !'}
+              </Button>
+            </div>
+            <Grid container className="wraper-blog-item">
+              <BlogItem />
             </Grid>
           </Grid>
           <Grid item xs={4}>
-            2
+            <CategoryBlog/>
           </Grid>
         </Grid>
       </Container>
