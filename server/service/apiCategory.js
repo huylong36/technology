@@ -41,4 +41,12 @@ const deleteCategory = async (req , res) =>{
         return res.status(500).json({msg : error.message})
     }
 }
-module.exports = { createCategory , updateCategory , deleteCategory };
+const getCategory = async (req , res) =>{
+  try {
+    const category = await Category.find()
+    res.json({ success: true, message: "get product category okee", category });
+  } catch (error) {
+    
+  }
+}
+module.exports = { createCategory , updateCategory , deleteCategory  , getCategory};

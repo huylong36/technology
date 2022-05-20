@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Category = require("./Category");
 const Schema = mongoose.Schema;
 const BlogSchema = new Schema({
-  name: {
+  username: {
     type: String,
   },
   media: {

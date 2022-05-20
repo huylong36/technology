@@ -13,7 +13,6 @@ import Client_Page from './user_page'
 const Layout = () => {
     const dispatch = useDispatch()
     const user_ = useSelector((state) => state.user);
-    console.log('user_' , user_);
   useEffect(() => {
     const userInfo = Cookies.get("user")
       ? JSON.parse(Cookies.get("user") || "")
